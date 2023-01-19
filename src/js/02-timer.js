@@ -68,6 +68,9 @@ butttonStart.addEventListener('click', () => {
     } else {
       Notiflix.Notify.success('Countdown finished');
       timerHtml.style.color = 'black';
+      clearInterval(timer);
     }
   }, 1000);
 });
+
+

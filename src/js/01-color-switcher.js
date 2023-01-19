@@ -11,13 +11,13 @@ function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
 
-buttonStart.addEventListener('click', () => {
-    buttonStart.disabled = true;
-    buttonStop.disabled = false;
+btnStart.addEventListener('click', () => {
+  btnStart.disabled = true;
+  btnStop.disabled = false;
 
-    timerId = setInterval(() => {
-        document.body.style.background = getRandomHexColor();
-    })
+  timerId = setInterval(() => {
+    document.body.style.background = getRandomHexColor();
+  }, 1000);
 });
 
 buttonStop.addEventListener('click', () => {
@@ -25,4 +25,5 @@ buttonStop.addEventListener('click', () => {
 
     buttonStart.disabled = false;
     buttonStop.disabled = true;
-});
+})
+
