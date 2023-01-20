@@ -11,13 +11,13 @@ function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
 
-btnStart.addEventListener('click', () => {
-  btnStart.disabled = true;
-  btnStop.disabled = false;
+buttonStart.addEventListener('click', () => {
+    buttonStart.disabled = true;
+    buttonStop.disabled = false;
 
-  timerId = setInterval(() => {
-    document.body.style.background = getRandomHexColor();
-  }, 1000);
+    timerId = setInterval(() => {
+        document.body.style.background = getRandomHexColor();
+    }, 1000);
 });
 
 buttonStop.addEventListener('click', () => {

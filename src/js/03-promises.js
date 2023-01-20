@@ -1,45 +1,50 @@
 import Notiflix from 'notiflix';
 
-const delay = document.querySelector('input[name ="delay"]');
-const step = document.querySelector('input[name ="step"]');
-const amount = document.querySelector('input[name ="amount"]');
-const buttonCreatePromise = document.querySelector('button[type="submit"]');
+const form = document.querySelector('.form');
 
 function createPromise(position, delay) {
-  const promise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const shouldResolve = Math.random() > 0.3;
+  const shouldResolve = Math.random() > 0.3;
 
-      if (shouldResolve) {
-         // Fulfill
-        resolve({ position, delay });
-      } else {
-        // Reject
-        reject({ position, delay });
-      }
-    }, delay);
-  });
-
-  return promise;
+  if (shouldResolve) {
+    return Promise.resolve({ position, delay });
+  } else {
+    return Promise.reject({ position, delay });
+  }
 }
 
-buttonCreatePromise.addEventListener('click', event => {
-  event.preventDefault();
+function startPromises({ delay, step, amount }) {
 
-  let firstDelay = Number(delay.value);
-  let delayStep = Number(step.value);
-
-  for (let i = 0; i < amount.value; i+= 1) {
-    createPromise(1 + i, firstDelay + i * delayStep)
+  for (let position = 1; position <= amount; position++) {
+    createPromise(position, delay)
       .then(({ position, delay }) => {
-        Notiflix.Notify.success(
-          `✅ Fulfilled promise ${position} in ${delay}ms`
-        );
+        setTimeout(() => {
+          Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        }, delay);
       })
       .catch(({ position, delay }) => {
-        Notiflix.Notify.failure(
-          `❌ Rejected promise ${position} in ${delay}ms`
-        );
+        setTimeout(() => {
+          Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+        }, delay);
       });
+
+    delay += step;
   }
-});
+}
+
+function buttonCreatePromise(event) {
+  event.preventDefault();
+
+  const {
+    elements: { delay, step, amount },
+  } = event.currentTarget;
+
+  startPromises({
+    delay: Number(delay.value),
+    step: Number(step.value),
+    amount: Number(amount.value),
+  });
+
+  event.currentTarget.reset();
+}
+
+form.addEventListener('submit', buttonCreatePromise);
